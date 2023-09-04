@@ -31,6 +31,7 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 	static bool IsStateSpringBoardDashOn = false;
 	static bool IsStateInNormalAir=false;
 	static float SpringBoardDashStop=4.0f;
+	static bool IsHigherDoubleJump = false;
 	
 	static bool stompPlayed = false;
     static bool homingPlayed = false;
@@ -179,6 +180,13 @@ if (BlackboardStatus.Get() != 0&&!BlackboardStatus.IsSuper())
 		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateLightDash||
 		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateAirBoost||
 		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateStompingDown||
+		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateWallJump||
+		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateBumpJump||
+		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateQuickStepJump||
+		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateQuickStepDoubleJump||
+		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateSpinBoostCharge||
+		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateDoubleJump||
+		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateStompingBounce||
 		Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateWallJump
 		){IsStateInNormalAir=true;}else{IsStateInNormalAir=false;}
 ////////////////////////////////////////////////////////////////Diving
@@ -550,8 +558,7 @@ if (BlackboardStatus.Get() != 0&&!BlackboardStatus.IsSuper())
 			//Sonic.Animation.SetAnimation("SELECTJUMP_F_LOOP");
 		}
 /////////////////////////////////////////////////////Higher Double Jump
-/*
-	if (!IsStateHoldBoost&&!Sonic.IsGrounded() && Sonic.State.GetCurrentStateID() == Sonic.StateID.StateDoubleJump)
+	if (!IsStateHoldBoost&&!Sonic.IsGrounded() && Sonic.State.GetCurrentStateID() == Sonic.StateID.StateDoubleJump&&IsHigherDoubleJump)
 		{
 			if(!IsStateAfterBounceJump&& IsStateSonicNotDead)
 			{
@@ -567,7 +574,6 @@ if (BlackboardStatus.Get() != 0&&!BlackboardStatus.IsSuper())
 				IsStateAfterBounceJump=true;
 			}
 		}
-*/
 ///////////////////////////////////////////////Stomp+Jump
 	if(Sonic.State.GetCurrentStateID() ==Sonic.StateID.StateStompingDown&&Sonic.Input.IsPressed(Sonic.PlayerActionType.PlayerJump)&& IsStateSonicNotDead)
 	{
@@ -691,7 +697,7 @@ if (BlackboardStatus.Get() != 0&&!BlackboardStatus.IsSuper())
 ///////////////////////////////////////////////Edit Homing effect
 	if(Sonic.State.GetCurrentStateID() == Sonic.StateID.StateHomingAttack&&IsStateSonicNotDead)
 	{
-		*kinematics.Position +=new Vector3(0.0f, 0.8f, 0.0f);
+		*kinematics.Position +=new Vector3(0.0f, 0.4f, 0.0f);
 		//Sonic.Animation.SetAnimation("COMBO_CRASHER_LOOP");
 		//Sonic.Effect.StopAnimationEffects();
 		IsStateDivingAirBoostOn = true;

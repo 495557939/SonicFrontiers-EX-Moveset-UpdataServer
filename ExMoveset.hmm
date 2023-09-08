@@ -1807,21 +1807,6 @@ if (BlackboardStatus.Get() != 0
 		Sonic.Effect.StopEffect("NewBoostAura4");
 		Sonic.Effect.StopEffect("NewBoostAura5");
 		Sonic.Effect.StopEffect("NewBoostAuraHit");
-		
-		int soundSpinLT = Sonic.Sound.PlaySound("sn_spindash");
-		Sonic.Sound.StopSound(&soundSpinLT);
-		int sn_crossslash_shoot = Sonic.Sound.PlaySound("sn_crossslash_shoot");
-		Sonic.Sound.StopSound(&sn_crossslash_shoot);
-		int sn_short_homing = Sonic.Sound.PlaySound("sn_short_homing");
-		Sonic.Sound.StopSound(&sn_short_homing);
-		int sn_homingshot_shoot = Sonic.Sound.PlaySound("sn_homingshot_shoot");
-		Sonic.Sound.StopSound(&sn_homingshot_shoot);
-		int sn_windmill_kick = Sonic.Sound.PlaySound("sn_windmill_kick");
-		Sonic.Sound.StopSound(&sn_windmill_kick);
-		int sn_airtrick = Sonic.Sound.PlaySound("sn_airtrick");
-		Sonic.Sound.StopSound(&sn_airtrick);
-		int sn_sonic_boom = Sonic.Sound.PlaySound("sn_sonic_boom");
-		Sonic.Sound.StopSound(&sn_sonic_boom);
 		Sonic.Effect.StopEffect("HigherDoubleJump1");
 		
 	}

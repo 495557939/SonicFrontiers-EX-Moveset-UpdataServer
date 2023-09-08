@@ -1524,10 +1524,13 @@ if (BlackboardStatus.Get() != 0
 	if(IsNoHomingDashReady
 	&&Sonic.Input.IsPressed(Sonic.PlayerActionType.PlayerAttack)
 	&&!Sonic.IsGrounded()
+	&&IsStateInNormalAir
 	&&IsStateSonicNotDead
 	&&Sonic.State.GetCurrentStateID() != Sonic.StateID.StateHomingAttack
 	&&Sonic.State.GetCurrentStateID() != Sonic.StateID.StateGrind
-	&&Sonic.State.GetCurrentStateID() != Sonic.StateID.StateGrind
+	&&Sonic.State.GetCurrentStateID() != Sonic.StateID.StateGrindRoot
+	&&Sonic.State.GetCurrentStateID() != Sonic.StateID.StateHangPole
+	&&Sonic.State.GetCurrentStateID() != Sonic.StateID.StateWallActionRoot
 	//&&!Bitwise.Test(*BlackboardStatus.GetStateFlags(), (uint)BlackboardStatus.StateFlags.IsHoming)
 	&&!Bitwise.Test(*BlackboardStatus.GetStateFlags(), (uint)BlackboardStatus.StateFlags.IsSpringJump)
 	&&!Bitwise.Test(*BlackboardStatus.GetWorldFlags(), (uint)BlackboardStatus.WorldFlags.IsBattle)

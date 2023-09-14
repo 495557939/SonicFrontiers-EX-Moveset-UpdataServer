@@ -60,7 +60,6 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 	static bool UseExSweepKick=true;
 	static bool UseExGrindPoes=true;
 	/////EffectAndCamera
-	static bool DisableFreeFallCamera=true;
 	static bool UseExBoostEffect=true;
 	static bool UseBlueTailEffect=true;
 	static bool UseExSlideEffect=true;
@@ -111,7 +110,6 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 			UseExSweepKick = bool.Parse(ini["Main"]["UseExSweepKick"]);
 			UseExGrindPoes = bool.Parse(ini["Main"]["UseExGrindPoes"]);
 			
-			DisableFreeFallCamera = bool.Parse(ini["Main"]["DisableFreeFallCamera"]);
 			UseExBoostEffect = bool.Parse(ini["Main"]["UseExBoostEffect"]);
 			UseBlueTailEffect = bool.Parse(ini["Main"]["UseBlueTailEffect"]);
 			UseExSlideEffect = bool.Parse(ini["Main"]["UseExSlideEffect"]);

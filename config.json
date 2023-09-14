@@ -1,0 +1,459 @@
+{
+	"Groups":[
+		{
+		"Name":"Main",
+		"DisplayName":"Basic Physics",
+		"Elements":[
+		
+		
+			{
+			"Name":"UseHigherDoubleJump",
+			"DisplayName":"Higher Double Jump",
+			"Description":[
+			"Higher Double Jump"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			{
+			"Name":"UseHigherBounceJump",
+			"DisplayName":"Higher Bounce Jump",
+			"Description":[
+			"Higher Bounce Jump"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			{
+			"Name":"UseFasterDropDash",
+			"DisplayName":"Faster Drop Dash",
+			"Description":[
+			"Faster Drop Dash"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			{
+			"Name":"UseFasterBoost",
+			"DisplayName":"Faster Boost",
+			"Description":[
+			"Faster Boost"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			
+      ]
+    },
+	{
+      "Name": "Main",
+      "DisplayName": "Common Function",
+      "Elements": [
+			
+			
+			
+			
+			{
+			"Name":"UseExFreeBumpJump",
+			"DisplayName":"RT+A-A Free Bump Jump",
+			"Description":[
+			"RT+Double Jump",
+			"Ex Free Bump Jump"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			{
+			"Name":"UseExFreeFall",
+			"DisplayName":"Air+Y Free Fall",
+			"Description":[
+			"Air+Y",
+			"Ex Free Fall"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			{
+			"Name":"UseExFreeFallAirBoost",
+			"DisplayName":"Free Fall AirBoost On",
+			"Description":[
+			"Ex Free Fall AirBoost"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseExDrift",
+			"DisplayName":"RT+B Free Simple Drift",
+			"Description":[
+			"RT+B Ex Drift"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseExHomingCurve",
+			"DisplayName":"SLW Style Homing Attack Curve",
+			"Description":[
+			"Ex Homing Attack Curve",
+			"Please note that this feature may make it impossible to attack very small enemies"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseExHomingBoost",
+			"DisplayName":"Hold_A/RT+X Easy Homing Boost",
+			"Description":[
+			"Hold_A _RT +X",
+			"Ex Homing Boost"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseExAirSpinDash",
+			"DisplayName":"Air+LT Drop Spin Dash",
+			"Description":[
+			"High-speed drop when using SpinDash in the air.",
+			"LT+RT to Forward Spin Stomp"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseExSpringBoardDash",
+			"DisplayName":"X button GBA Style Spring Board Dash",
+			"Description":[
+			"Press X to dash when Sonic is on Spring and Jump Board."
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseExHomingDash",
+			"DisplayName":"X button Gens Style Homing Dash",
+			"Description":[
+			"Press X when no object is Homing and you can still dash in air."
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseExFreeCyloop",
+			"DisplayName":"Air+Y Free Quick Cyloop in Battle",
+			"Description":[
+			"Air+Y Free Quick Cyloop in Battle."
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseExGrindActionLT",
+			"DisplayName":"Grind+LT Spin Accelerate",
+			"Description":[
+			"Grind+LT to Spin Accelerate"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseExGrindActionX",
+			"DisplayName":"Grind+X Lite Accelerate",
+			"Description":[
+			"Grind+X to Lite Accelerate"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			
+			{
+			"Name":"UseExGrindActionY",
+			"DisplayName":"Grind+Y Reverse Movement",
+			"Description":[
+			"Grind+Y to Reverse Movement"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			
+			{
+			"Name":"UseExAntiskidShoe",
+			"DisplayName":"Use Anti-slip Shoes",
+			"Description":[
+			"When you are in a ",
+			"GuardedFlipBack state",
+			"and on steep slopes,",
+			"You will not lose control",
+			"",
+			"When you encounter ",
+			"a deadly slope,",
+			"You can press the A button to ",
+			"perform a jump and escape.",
+			"",
+			"When you use Stomp,",
+			"You can Jump",
+			"",
+			"When you release the",
+			"jump button,",
+			"you will immediately",
+			"exit the DropDash state"
+			 
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			
+			
+			
+      ]
+    },
+	{
+      "Name": "Main",
+      "DisplayName": "Animation",
+      "Elements": [
+			
+			
+			{
+			"Name":"UseExGoalPoes",
+			"DisplayName":"Goal Animation",
+			"Description":[
+			"Use Enter Goal Animation"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			{
+			"Name":"UseExGrindPoes",
+			"DisplayName":"Grind+B Animation",
+			"Description":[
+			"Grind +B Just a pose"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			{
+			"Name":"UseExSweepKick",
+			"DisplayName":"Unleashed Style Sweep Kick",
+			"Description":[
+			"Unleashed Style Sweep Kick"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+      ]
+    },
+	{
+      "Name": "Main",
+      "DisplayName": "Effect",
+      "Elements": [
+			
+		
+			{
+			"Name":"UseExBoostEffect",
+			"DisplayName":"Ex Boost Aura Effect",
+			"Description":[
+			"Add Ex Boost Aura Effect"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseBlueTailEffect",
+			"DisplayName":"Blue Tail Effect",
+			"Description":[
+			"Add Homing and Stomp Blue Tail Effect"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
+			"Name":"UseExSlideEffect",
+			"DisplayName":"Slide Glow Effect",
+			"Description":[
+			"Add Slide Glow Effect"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			
+      ]
+    },
+	{
+      "Name": "Main",
+      "DisplayName": "Advanced Function: Hard for control",
+      "Elements": [
+	  
+	  
+			
+			{
+			"Name":"UseExQSS",
+			"DisplayName":"Unleashed Style QSS",
+			"Description":[
+			"Hold_B+LB",
+			"Hold_B+RB",
+			"For Speed Up",
+			"Unleashed Style QSS"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":false
+			},
+			
+		
+			{
+			"Name":"UseExMSpeed",
+			"DisplayName":"Unleashed Style M-Speed/D-Speed",
+			"Description":[
+			"Walk in Air",
+			"(When without Boost)",
+			"For Air Speed Up",
+			"Unleashed Style",
+			"M-Speed/D-Speed"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":false
+			},
+			
+			
+			{
+			"Name":"UseStompCurve",
+			"DisplayName":"Unleashed Style Stomp Curve",
+			"Description":[
+			"Unleashed Style Stomp Curve"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":false
+			},
+			
+			
+			{
+			"Name":"UseStrongHomingDash",
+			"DisplayName":"Unleashed Style Strong Homing Dash",
+			"Description":[
+			"Unleashed Style Strong Homing Dash"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":false
+			},
+			
+			
+			
+      ]
+    },
+	{
+      "Name": "Main",
+      "DisplayName": "Low End Setting",
+      "Elements": [
+			
+			
+			{
+			"Name":"DisableAllExEffect",
+			"DisplayName":"Disable All Ex Effect",
+			"Description":[
+			"Disable All Ex Effect",
+			"For low-end computers"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":false
+			}
+         ]
+      }
+   ],
+	"IniFile":"config.ini"
+}

@@ -1,2 +1,3 @@
 add ExMoveset.hmm
 add mod.ini
+add config.json

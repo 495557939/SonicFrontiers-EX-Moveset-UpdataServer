@@ -402,15 +402,15 @@ if (Player.Input.IsReleased(Player.InputActionType.PlayerRightStep))
 
 //////////////////////kinematics to Length
 /////////////////Kinematics GET by Trepe
-if (Player.GetPlayerType() != Player.PlayerType.Sonic)
-return;
+
 var kinematics = Player.Kinematics.Get();
-
-
 if (kinematics == null)
 return;
 float mag = kinematics->Velocity.Length();// Define velocity on X/Y/Z axes
 float horzMag = Player.Kinematics.GetHorizontalMagnitude();// Define velocity only on X axis
+
+if (Player.GetPlayerType() != Player.PlayerType.Sonic)
+return;
 
 /////////////////////////////////////////////////////////////
 //Infinite Dead Bug Fix
@@ -499,60 +499,6 @@ if (!IsStateSonicNotDead)
 	IsNoHomingDash=false;
 	NoHomingDashTime=10.0f;
 	IsStateInNormalAir=false;
-	/* 
-	bug This will cause the game's frame rate to drop
-	When I added IsStateSonicNotDead to all my StopEffect code, it was fixed
-	So executing the StopEffect code when Sonic dies will cause the game to drop frames after resurrection
-	
-	Player.Effect.StopEffect("GrindSpinLT1");
-	Player.Effect.StopEffect("GrindSpinLT1");
-	Player.Effect.StopEffect("GrindSpinLT2");
-	Player.Effect.StopEffect("Homing Line");
-	Player.Effect.StopEffect("Stomp Line")
-	Player.Effect.StopEffect("LowHomingLine1");
-	Player.Effect.StopEffect("DriftSmoke1");
-	Player.Effect.StopEffect("DriftSmoke1");
-	Player.Effect.StopEffect("DriftSmoke1");
-	Player.Effect.StopEffect("DriftDashEffect1");
-	Player.Effect.StopEffect("DriftDashEffect2");
-	Player.Effect.StopEffect("DriftDashEffect2");
-	Player.Effect.StopEffect("DriftDashEffect2");
-	Player.Effect.StopEffect("DriftDashEffect3");
-	Player.Effect.StopEffect("BumpBlueGpu1");
-	Player.Effect.StopEffect("SlidingEff1");
-	Player.Effect.StopEffect("JumpEff1");
-	Player.Effect.StopEffect("GrindReB1");
-	Player.Effect.StopEffect("GrindReB2");
-	Player.Effect.StopEffect("GrindReB3");
-	Player.Effect.StopEffect("GrindSpinLT1");
-	Player.Effect.StopEffect("GrindSpinLT2");
-	Player.Effect.StopEffect("GrindSpinX1");
-	Player.Effect.StopEffect("GrindSpinX2");
-	Player.Effect.StopEffect("SpringBoardDoubleJump");
-	Player.Effect.StopEffect("Homing Line1");
-	Player.Effect.StopEffect("Homing Line2");
-	Player.Effect.StopEffect("Stomp Line");
-	Player.Effect.StopEffect("Stomp Line");
-	Player.Effect.StopEffect("Stomp Line");
-	Player.Effect.StopEffect("ParryEffect1");
-	Player.Effect.StopEffect("ParryEffect2");
-	Player.Effect.StopEffect("NewBoostAura1");
-	Player.Effect.StopEffect("NewBoostAura2");
-	Player.Effect.StopEffect("NewBoostAura3");
-	Player.Effect.StopEffect("NewBoostAura4");
-	Player.Effect.StopEffect("NewBoostAura5");
-	Player.Effect.StopEffect("NewBoostAuraHit");
-	Player.Effect.StopEffect("HigherDoubleJump1");
-	Player.Effect.StopEffect("HigherDoubleJump1");
-	Player.Effect.StopEffect("HigherDoubleJump2");
-	Player.Effect.StopEffect("QSSSlidingEff1");
-	Player.Effect.StopEffect("QSSSlidingEff2");
-	Player.Effect.StopEffect("QSSSlidingEff2");
-	Player.Effect.StopEffect("QSSSlidingEff2");
-	Player.Effect.StopEffect("QSSSlidingEff2");
-	Player.Effect.StopEffect("QSSSlidingEff2");
-	Player.Effect.StopEffect("QSSSlidingEff2");
-	*/
 }
 ////////////////////////////It's normal in the air state
 if(
@@ -625,7 +571,7 @@ if(Player.Status.IsGrounded()
 /////////////////////////////////Update3 Battle state fix IsBattle
 bool NowInBattleState=false;
 if(
-	NowInBattleState
+	IS_WORLD_FLAG(IsBattle)
 	&&!IS_WORLD_FLAG(IsAutoRun)
 	//&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump
 	//&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateJumpBoardLaunch

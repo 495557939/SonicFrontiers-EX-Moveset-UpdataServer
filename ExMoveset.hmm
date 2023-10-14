@@ -573,8 +573,9 @@ bool NowInBattleState=false;
 if(
 	IS_WORLD_FLAG(IsBattle)
 	&&!IS_WORLD_FLAG(IsAutoRun)
-	//&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump
-	//&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateJumpBoardLaunch
+	&&!IS_STATE_FLAG(IsSpringJump)
+	&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump
+	&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateJumpBoardLaunch
 ){
 	NowInBattleState=true;
 }

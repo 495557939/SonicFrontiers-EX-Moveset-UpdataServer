@@ -78,6 +78,19 @@
 			},
 			
 			{
+			"Name":"UseFastFreeBumpJump",
+			"DisplayName":"Free Bump Jump Speed Up",
+			"Description":[
+			"Free Bump Jump Speed Up"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
+			
+			
+			{
 			"Name":"UseExFreeFall",
 			"DisplayName":"Air+Y Free Fall",
 			"Description":[
@@ -267,7 +280,20 @@
 			},
 			
 			
-			
+			{
+			"Name":"UseExGrindEndJump",
+			"DisplayName":"Grind+B Grind End Jump Ready",
+			"Description":[
+			"If you press B at the end of Grind,",
+			"you can make a big jump.",
+			"If you press A to jump at this point, ",
+			"you can also jump slightly higher than usual."
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
 			
 			
       ]
@@ -290,17 +316,6 @@
 			"DefaultValue":true
 			},
 			
-			{
-			"Name":"UseExGrindPoes",
-			"DisplayName":"Grind+B Animation",
-			"Description":[
-			"Grind +B Just a pose"
-			],
-			"Type":"bool",
-			"MinValue":null,
-			"MaxValue":null,
-			"DefaultValue":true
-			},
 			
 			{
 			"Name":"UseExSweepKick",
@@ -332,7 +347,7 @@
 			"Type":"bool",
 			"MinValue":null,
 			"MaxValue":null,
-			"DefaultValue":true
+			"DefaultValue":false
 			},
 			
 			
@@ -430,10 +445,54 @@
 			"DefaultValue":false
 			},
 			
+			{
+			"Name":"UseCloudFlyBoost",
+			"DisplayName":"Cloud Fly Boost (Wip)",
+			"Description":[
+			"Cloud Fly Boost"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":true
+			},
 			
+			{
+			"Name":"UseAAHomingAttack",
+			"DisplayName":"Use A-A Homing Attack (Wip)",
+			"Description":[
+			"Use A-A Homing Attack"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":false
+			},
 			
       ]
     },
+	
+	
+	{
+      "Name": "Main",
+      "DisplayName": "Camera",
+      "Elements": [
+			
+			{
+			"Name":"UseCameraDynamicFOV",
+			"DisplayName":"Camera Smooth Dynamic FOV (Wip)",
+			"Description":[
+			"Camera Smooth Dynamic FOV (Wip)"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":false
+			}
+			
+         ]
+      },
+	
 	{
       "Name": "Main",
       "DisplayName": "Low End Setting",
@@ -454,6 +513,8 @@
 			}
          ]
       }
+	  
+	  
    ],
 	"IniFile":"config.ini"
 }

@@ -447,15 +447,28 @@
 			
 			{
 			"Name":"UseCloudFlyBoost",
-			"DisplayName":"Cloud Fly Boost (Wip)",
+			"DisplayName":"Cloud Fly Boost",
 			"Description":[
 			"Cloud Fly Boost"
 			],
 			"Type":"bool",
 			"MinValue":null,
 			"MaxValue":null,
-			"DefaultValue":true
+			"DefaultValue":false
 			},
+			
+			{
+			"Name":"UseCloudBounceBoostJump",
+			"DisplayName":"Cloud Bounce Boost Jump",
+			"Description":[
+			"Cloud Bounce Boost Fly"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":false
+			},
+			
 			
 			{
 			"Name":"UseAAHomingAttack",

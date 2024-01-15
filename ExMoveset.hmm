@@ -16,6 +16,7 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 //Grind+X Lite Grind accelerate
 //Grind+B Grind End Jump Ready
 //RT Cloud Fly Air Boost
+//RT Cloud Bounce Boost Jump
 //A-A HomingAttack
 //Y-Y in Air to Free Battle Quick Cyloop
 //B-B Unleashed style SweepKick
@@ -46,6 +47,7 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
     {
 		Sonic.StateID.StateFall,
 		Sonic.StateID.StateFan,
+		Sonic.StateID.StateBaseJump,
 		Sonic.StateID.StateJump,
 		Sonic.StateID.StateFallFlip,
 		Sonic.StateID.StateGrindJump,
@@ -115,6 +117,7 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 	static bool UseStompCurve=false;
 	static bool UseStrongHomingDash=false;
 	static bool UseCloudFlyBoost=false;
+	static bool UseCloudBounceBoostJump=false;
 	static bool UseAAHomingAttack=false;
 	///LowEnd
 	static bool DisableAllExEffect=false;
@@ -167,6 +170,7 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 			UseStompCurve = bool.Parse(ini["Main"]["UseStompCurve"]);
 			UseStrongHomingDash = bool.Parse(ini["Main"]["UseStrongHomingDash"]);
 			UseCloudFlyBoost = bool.Parse(ini["Main"]["UseCloudFlyBoost"]);
+			UseCloudBounceBoostJump = bool.Parse(ini["Main"]["UseCloudBounceBoostJump"]);
 			UseAAHomingAttack = bool.Parse(ini["Main"]["UseAAHomingAttack"]);
 		}else{
 			Console.WriteLine($"[EX Moveset] Failed to locate mod directory.");
@@ -181,6 +185,7 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 	var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
 	if (SonicParametersInfo.pData == null)
 	return;
+	
 	
 	if(UseStompCurve||UseExSweepKick)
 	{
@@ -363,6 +368,7 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 	//Diving Start Animation Time 0f=off  1+=on
 	
 	static bool IsStateAirBoostOn = true;
+	static float IsStateAirBoostTime = 0.0f;
 	static bool IsStateAfterBounceJump=false;
 	
 	static bool IsSpringBoardDashReady = false;
@@ -378,7 +384,6 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 	static float DoubleSquatReady=0f;
 	static float SweepKickAnmTime=0f;
 	static float GrindAnmTime=0f;
-	static bool BumpAnmStart=false;
 	
 	
 	static bool SonicNowStomp=false;
@@ -411,6 +416,14 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 		InNormalAirTime+=0.01f;
 	}else{
 		InNormalAirTime=0f;
+	}
+	
+	if(Player.State.GetCurrentStateID<Sonic.StateID>()==Sonic.StateID.StateAirBoost
+	&&Player.Input.IsDown(Player.InputActionType.PlayerBoost)
+	){
+		IsStateAirBoostTime+=0.01f;
+	}else{
+		IsStateAirBoostTime=0.0f;
 	}
 	
 ///////////////////////////////////////////////////////////////Button On Off
@@ -543,14 +556,23 @@ if(Player.Status.IsGrounded()){IsStateInNormalAir=false;}
 	
 
 /////////////////////////////////Air Boost ON OFF
-if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost){
+
+if(!UseCloudFlyBoost){
+	if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost){
 	IsStateAirBoostOn = false;
+	}
+}else{
+	if (IsStateAirBoostTime>0.02f){
+		IsStateAirBoostOn = false;
+	}
 }
+
 
 if(Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateAirBoost
 &&!IsStateAirBoostOn
 ){
 	Player.State.Discard(Sonic.StateID.StateAirBoost);
+	SET_STATE_FLAG(IsAirBoost, false);
 }
 
 if(Player.Status.IsGrounded()
@@ -615,97 +637,204 @@ if (BlackboardStatus.Get() != null
 /////////////////////////////////////////////////////////////
 
 
+//RT Cloud Fly Air Boost&&Cloud Bounce Boost Fly
+
+bool CloudBounceBoostFlyOn=false;
 
 
+//Cloud Bounce Boost Fly
+if(UseCloudBounceBoostJump
+&&UseCloudFlyBoost
+&&Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateBounceJump){
+	CloudBounceBoostFlyOn=true;
+}
 
 
-
-
-//Cloud Boost
-
+//RT Cloud Fly Air Boost
 if (UseCloudFlyBoost
 ){
 
-//Boost edit
+//Boost speed edit
 	
 	if(Player.Status.IsGrounded()
 	&&Player.Status.IsGroundedSpecial()
 	){
-		if(IS_STATE_FLAG(IsBoost)&&mag<40f){
-			kinematics->Velocity +=Player.Kinematics.GetForward() * 18.5f;
+		
+		if(!Player.Status.IsSideView()){
+			if(IS_STATE_FLAG(IsBoost)&&mag<40f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 15.5f;
+			}
+			if(IS_STATE_FLAG(IsBoost)&&mag<45f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 5.5f;
+			}
 		}
-		if(IS_STATE_FLAG(IsBoost)&&mag<45f){
-			kinematics->Velocity +=Player.Kinematics.GetForward() * 8.5f;
+		
+		if(Player.Status.IsSideView()){
+			if(IS_STATE_FLAG(IsBoost)&&mag<30f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 15.5f;
+			}
+			if(IS_STATE_FLAG(IsBoost)&&mag<35f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 5.5f;
+			}
 		}
+		
 	}
 		
 		
 //Air Boost edit
 	
-	if(!IS_WORLD_FLAG(IsAirTrick)
-	&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBumpJump
-	){
-		Player.State.Discard(Sonic.StateID.StateAirBoost);
-	}
+	//Player.State.Discard(Sonic.StateID.StateAirBoost)
 	
-	if (NewAirBoost==-1
-	&&InNormalAirTime>0.01f
-	&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBumpJump
-	&&!IS_WORLD_FLAG(IsAirTrick)
-	&&Player.Input.IsPressed(Player.InputActionType.PlayerBoost)
-	&&!Player.Status.IsSpecialAction()
-	){
-		Player.State.SetState(Sonic.StateID.StateCloudJump);
-		kinematics->Velocity += new Vector3(0.0f, 5.5f, 0.0f);
-		SET_STATE_FLAG(IsAirBoost, true);
-		NewAirBoost=1;
-		if(mag<40f){
-			kinematics->Velocity +=Player.Kinematics.GetForward() * 18.5f;
-		}
-		if(mag<50f){
-			kinematics->Velocity +=Player.Kinematics.GetForward() * 8.5f;
-		}
-		if(kinematics->Velocity.Y<5.5f){
-			kinematics->Velocity = new Vector3(0.0f, 5.5f, 0.0f);
-		}
-		Player.Sound.PlaySound("sn_powerboost");
-		Player.Sound.PlaySound("sn_relative_wind");
-		Player.Sound.PlaySound("sn_parry_move");
-		Player.Effect.PlayEffect("AirBoostFix", "ec_ft_pow_dash_ge01_set01");
-		IsStateAirBoostOn=false;
-	}
-	
-	if(NewAirBoost==1
-	&&InNormalAirTime>0.01f
-	&&Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCloudJump
-	&&Player.Input.IsDown(Player.InputActionType.PlayerBoost)
-	&&!Player.Status.IsSpecialAction()
-	){
-		SET_STATE_FLAG(IsAirBoost, true);
-		Player.Animation.SetAnimation("BOOST_AIR");
-		if(mag<45f){
-			kinematics->Velocity +=Player.Kinematics.GetForward() * 20.5f;
-		}
-		if(mag<55f){
-			kinematics->Velocity +=Player.Kinematics.GetForward() * 5.5f;
-		}
-		//kinematics->Rotation=LastRotation;
-	}
-	
+	//Sound Stop
 	if(!Player.Input.IsDown(Player.InputActionType.PlayerBoost)
 	||Player.Status.IsSpecialAction()
 	||Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpringJump
 	||Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateJumpBoardLaunch
+	||Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost
+	||Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoostCharge
+	||Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFall
 	||IS_STATE_FLAG(IsSpringJump)
+	||IS_WORLD_FLAG(IsAirTrick)
 	){
 		Player.Effect.StopEffect("AirBoostFix");
 		int soundSpinLT = Player.Sound.PlaySound("sn_powerboost");
 		Player.Sound.StopSound(&soundSpinLT);
+		NewAirBoost=0;
 	}
+	
+	
+	//Flying Speed Up
+	if(NewAirBoost==1
+	&&IsStateInNormalAir
+	&&Player.Input.IsDown(Player.InputActionType.PlayerBoost)
+	&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBumpJump
+	&&!IsStateHoldSpin
+	&&!IS_WORLD_FLAG(IsAirTrick)
+	){
+		SET_STATE_FLAG(IsAirBoost, false);
+		SET_WORLD_FLAG(IsAirTrick, false);
+		
+		if(Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateBounceJump){
+			IsStateAirBoostOn=false;
+			if(mag<50f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 4.5f;
+			}
+		}
+		
+		if(Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingDown){
+			Player.Animation.SetAnimation("STOMPING");
+		}else if(Player.State.GetPreviousStateID<Sonic.StateID>()==Sonic.StateID.StateBounceJump
+		&&Player.State.GetCurrentStateID<Sonic.StateID>()==Sonic.StateID.StateCloudJump
+		){
+			Player.Animation.SetAnimation("SELECTJUMP_U_LOOP");
+		}else{
+			Player.Animation.SetAnimation("BOOST_AIR");
+		}
+		
+		
+		if(!Player.Status.IsSideView()){
+			if(mag<40f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 16.5f;
+			}
+			if(mag<50f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 4.5f;
+			}
+		}
+		
+		if(Player.Status.IsSideView()){
+			if(mag<35f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 10.5f;
+			}
+			if(mag<45f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 4.5f;
+			}
+		}
+		
+		//kinematics->Rotation=LastRotation;
+	}
+	
+	//Fix FlyToBumpStomp
+	if(Player.State.GetCurrentStateID<Sonic.StateID>()==Sonic.StateID.StateStompingDown
+	&&Player.State.GetPreviousStateID<Sonic.StateID>()==Sonic.StateID.StateBumpJump
+	&&IsStateHoldBoost
+	){
+		if(mag<40f){
+			kinematics->Velocity +=Player.Kinematics.GetForward() * 16.5f;
+		}
+		if(mag<50f){
+			kinematics->Velocity +=Player.Kinematics.GetForward() * 4.5f;
+		}
+	}
+	
+	//Fly Start
+	if (IsStateAirBoostOn
+	&&IsStateInNormalAir
+	&&(
+	Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost
+	||CloudBounceBoostFlyOn
+	)
+	&&Player.Input.IsDown(Player.InputActionType.PlayerBoost)
+	&&!IsStateHoldSpin
+	&&!IS_WORLD_FLAG(IsAirTrick)
+	){
+		NewAirBoost=1;
+		IsStateAirBoostOn=false;
+		Player.State.SetState(Sonic.StateID.StateCloudJump);
+		SET_WORLD_FLAG(IsAirTrick, false);
+		
+		if(Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBounceJump){
+			if(!Player.Status.IsSideView()){
+				if(mag<40f){
+					kinematics->Velocity +=Player.Kinematics.GetForward() * 14.0f;
+				}
+				if(mag<50f){
+					kinematics->Velocity +=Player.Kinematics.GetForward() * 6.0f;
+				}
+				if(kinematics->Velocity.Y<2.5f){
+					kinematics->Velocity = new Vector3(0.0f, 2.5f, 0.0f);
+				}
+			}
+		}else{
+			//StateBounceJump
+			IsStateAirBoostOn=true;
+			SET_STATE_FLAG(IsAirBoost, true);
+			if(!Player.Status.IsSideView()){
+				if(mag<35f){
+					kinematics->Velocity +=Player.Kinematics.GetForward() * 10.0f;
+				}
+				if(mag<45f){
+					kinematics->Velocity +=Player.Kinematics.GetForward() * 4.0f;
+				}
+				if(kinematics->Velocity.Y<1.25f){
+					kinematics->Velocity = new Vector3(0.0f, 1.25f, 0.0f);
+				}
+			}
+		}
+		
+		if(Player.Status.IsSideView()){
+			kinematics->Velocity += new Vector3(0.0f, 1.5f, 0.0f);
+			if(mag<20f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 8.0f;
+			}
+			if(mag<25f){
+				kinematics->Velocity +=Player.Kinematics.GetForward() * 4.0f;
+			}
+			if(kinematics->Velocity.Y<2.5f){
+				kinematics->Velocity = new Vector3(0.0f, 2.5f, 0.0f);
+			}
+		}
+		
+		Player.Sound.PlaySound("sn_powerboost");
+		Player.Sound.PlaySound("sn_relative_wind");
+		Player.Sound.PlaySound("sn_parry_move");
+		Player.Effect.PlayEffect("AirBoostFix", "ec_ft_pow_dash_ge01_set01");
+	}
+	
+	
 	
 //idle to boost
 	if(SonicNowStop
-	&&Player.Input.IsDown(Player.InputActionType.PlayerBoost)
+	&&Player.Input.IsPressed(Player.InputActionType.PlayerBoost)
 	&&!Player.Status.IsSpecialAction()
 	){
 		kinematics->Position +=new Vector3(0.0f, 0.01f, 0.0f);
@@ -723,35 +852,6 @@ if (UseCloudFlyBoost
 		SET_STATE_FLAG(IsBoost, true);
 	}
 	
-//Bump Air Boost Fix
-	if(Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateBumpJump
-	||IS_WORLD_FLAG(IsAirTrick)
-	){
-		if(Player.Input.IsDown(Player.InputActionType.PlayerBoost)
-		&&Player.Input.IsPressed(Player.InputActionType.PlayerBoost)
-		&&!IsStateAirBoostOn
-		){
-			//Player.State.SetState(Sonic.StateID.StateRecoveryJump);
-			Player.State.SetState(Sonic.StateID.StateCloudJump);
-			//kinematics->Velocity += new Vector3(0.0f, 5.5f, 0.0f);
-			SET_STATE_FLAG(IsAirBoost, true);
-			NewAirBoost=1;
-			if(mag<40f){
-				kinematics->Velocity +=Player.Kinematics.GetForward() * 18.5f;
-			}
-			if(mag<50f){
-				kinematics->Velocity +=Player.Kinematics.GetForward() * 8.5f;
-			}
-			if(kinematics->Velocity.Y<5.5f){
-				kinematics->Velocity = new Vector3(0.0f, 5.5f, 0.0f);
-			}
-			Player.Sound.PlaySound("sn_powerboost");
-			Player.Sound.PlaySound("sn_relative_wind");
-			Player.Sound.PlaySound("sn_parry_move");
-			Player.Effect.PlayEffect("AirBoostFix", "ec_ft_pow_dash_ge01_set01");
-			IsStateAirBoostOn=false;
-		}
-	}
 	
 //Drift to Boost Sound Fix
 
@@ -774,6 +874,14 @@ if (UseCloudFlyBoost
 	){
 		NewAirBoost=-1;
 		Player.Effect.StopEffect("AirBoostFix");
+	}
+	
+//Air Bump Boost Fix
+	if(IS_WORLD_FLAG(IsAirTrick)
+	&&Player.Input.IsPressed(Player.InputActionType.PlayerBoost)
+	&&!IsStateAirBoostOn
+	){
+		Player.State.SetState(Sonic.StateID.StateRecoveryJump);
 	}
 	
 	
@@ -1108,13 +1216,14 @@ if(UseExFreeFall){					//EX Diving ON OFF
 	&&!IS_WORLD_FLAG(IsAutoRun)
 		){
 			NoHomingDashTime=0.0f;
-			if(!Player.Status.IsSideView()&&mag<70f)
+			if(!Player.Status.IsSideView()&&mag<100f)
 			{
-				kinematics->Velocity+= Player.Kinematics.GetForward()*1.4f+(new Vector3(0.0f, 1.00f, 0.0f));
-			}else if(mag<70f){
-				kinematics->Velocity+= Player.Kinematics.GetForward()*0.625f+(new Vector3(0.0f, 0.425f, 0.0f));
+				kinematics->Velocity+= Player.Kinematics.GetForward()*2.85f+(new Vector3(0.0f, 2.05f, 0.0f));
+			}else if(mag<60f){
+				kinematics->Velocity+= Player.Kinematics.GetForward()*1.15f+(new Vector3(0.0f, 0.95f, 0.0f));
 			}
 		}
+
 //EX Force into Stomping
 	if (
 	IsStateInNormalAir
@@ -2327,11 +2436,20 @@ if(UseExGrindEndJump){
 		
 		if(!Player.Input.IsDown(Player.InputActionType.PlayerJump)
 		){
-			kinematics->Velocity *=1.8f;
-			kinematics->Velocity +=new Vector3(0.0f, 35.0f, 0.0f);
+			if(!Player.Status.IsSideView()){
+				kinematics->Velocity *=1.8f;
+				kinematics->Velocity +=new Vector3(0.0f, 35.0f, 0.0f);
+			}else{
+				kinematics->Velocity *=0.9f;
+				kinematics->Velocity +=new Vector3(0.0f, 18.0f, 0.0f);
+			}
 			Player.Sound.PlaySound("sn_ss_spl_atk_1");
 		}else{
-			kinematics->Velocity +=new Vector3(0.0f, 15.5f, 0.0f);
+			if(!Player.Status.IsSideView()){
+				kinematics->Velocity +=new Vector3(0.0f, 15.5f, 0.0f);
+			}else{
+				kinematics->Velocity +=new Vector3(0.0f, 7.5f, 0.0f);
+			}
 			Player.Sound.PlaySound("sn_skateboard_trick");
 			Player.Sound.PlaySound("sn_triangle_jump");
 			Player.Sound.PlaySound("sn_skateboard_jump");
@@ -2339,7 +2457,11 @@ if(UseExGrindEndJump){
 		
 		Player.State.SetState(Sonic.StateID.StateGrindJump);
 		if(IsStateHoldBoost){
-			kinematics->Velocity +=new Vector3(0.0f, 5.5f, 0.0f);
+			if(!Player.Status.IsSideView()){
+				kinematics->Velocity +=new Vector3(0.0f, 5.5f, 0.0f);
+			}else{
+				kinematics->Velocity +=new Vector3(0.0f, 2.5f, 0.0f);
+			}
 		}
 		if(!SonicNowStop){
 
@@ -2697,7 +2819,12 @@ if(UseExGrindEndJump){
 			IsNoHomingDashReady=true;
 			if(!SonicNowStop){Player.Sound.PlaySound("sn_crossslash_shoot");}
 			Player.State.SetState(Sonic.StateID.StateFall);
-			kinematics->Velocity =Player.Kinematics.GetForward() * 10.00f+new Vector3(0.0f,4.0f,0.0f);
+			
+			if(!Player.Status.IsSideView()){
+				kinematics->Velocity =Player.Kinematics.GetForward() * 10.00f+new Vector3(0.0f,4.0f,0.0f);
+			}else{
+				kinematics->Velocity =Player.Kinematics.GetForward() * 5.00f+new Vector3(0.0f,2.0f,0.0f);
+			}
 
 			
 			if(!DisableAllExEffect
@@ -2746,8 +2873,8 @@ if(UseExGrindEndJump){
 				{
 				if(horzMag<20f&&Player.Status.IsSideView())
 				{
-					kinematics->Velocity +=Player.Kinematics.GetForward() * (10.00f);
-					kinematics->Velocity +=new Vector3(0.0f,3.25f,0.0f);//Resist gravity descent
+					kinematics->Velocity +=Player.Kinematics.GetForward() * (6.00f);
+					kinematics->Velocity +=new Vector3(0.0f,1.5f,0.0f);//Resist gravity descent
 				}else if(horzMag<40f){
 					kinematics->Velocity +=Player.Kinematics.GetForward() * (12.00f);
 					kinematics->Velocity +=new Vector3(0.0f,3.25f,0.0f);//Resist gravity descent

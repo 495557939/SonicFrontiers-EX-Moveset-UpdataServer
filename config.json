@@ -447,7 +447,7 @@
 			
 			{
 			"Name":"UseCloudFlyBoost",
-			"DisplayName":"Cloud Fly Boost",
+			"DisplayName":"Cloud Fly Boost (Wip2)",
 			"Description":[
 			"Cloud Fly Boost"
 			],
@@ -459,7 +459,7 @@
 			
 			{
 			"Name":"UseCloudBounceBoostJump",
-			"DisplayName":"Cloud Bounce Boost Jump",
+			"DisplayName":"Cloud Fly Boost Bounce Jump",
 			"Description":[
 			"Cloud Bounce Boost Fly"
 			],

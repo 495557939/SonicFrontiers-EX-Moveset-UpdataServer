@@ -22,6 +22,11 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 //B-B Unleashed style SweepKick
 //B+LB/RB QSS
 //Walk M-Speed
+//LB+RB Cyberspace Parry
+//LB+RB+A Parry Strom Jump
+//LB+RB+X Serial Homing Attack(Cyberspace)
+//RT/A LightDash Interrupt(AntiskidShoe)
+//Y+B  Simple Boarding(Open world)
 
 	#load "System.Numerics.dll"
 	
@@ -119,6 +124,8 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 	static bool UseCloudFlyBoost=false;
 	static bool UseCloudBounceBoostJump=false;
 	static bool UseAAHomingAttack=false;
+	static bool UseExParryMoveset=true;
+	static bool UseExSimpleBoarding=true;
 	///LowEnd
 	static bool DisableAllExEffect=false;
 	/////SETTINGS END
@@ -172,6 +179,9 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 			UseCloudFlyBoost = bool.Parse(ini["Main"]["UseCloudFlyBoost"]);
 			UseCloudBounceBoostJump = bool.Parse(ini["Main"]["UseCloudBounceBoostJump"]);
 			UseAAHomingAttack = bool.Parse(ini["Main"]["UseAAHomingAttack"]);
+			UseExParryMoveset = bool.Parse(ini["Main"]["UseExParryMoveset"]);
+			UseExSimpleBoarding = bool.Parse(ini["Main"]["UseExSimpleBoarding"]);
+			
 		}else{
 			Console.WriteLine($"[EX Moveset] Failed to locate mod directory.");
 			return;
@@ -384,6 +394,8 @@ Code "ExMoveset"  by "Luna Trepe Hyper Weezley StarNoodle495"
 	static float DoubleSquatReady=0f;
 	static float SweepKickAnmTime=0f;
 	static float GrindAnmTime=0f;
+	static bool UseHeroTornadoOn=true;
+	static float UseHeroTornadoTime=0f;
 	
 	
 	static bool SonicNowStomp=false;
@@ -543,6 +555,17 @@ if (!IsStateSonicNotDead)
 	IsStateInNormalAir=false;
 }
 
+/////////////////////////////IsGrounded
+	bool IsGrounded=false;
+	if (Player.Status.IsGrounded()
+	|| Player.Status.IsGroundedSpecial()
+	|| Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingFlip 
+	|| Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingBounce 
+	|| Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingAttack
+	|| Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateGrind
+	){
+		IsGrounded=true;
+	}
 
 ////////////////////////////It's normal in the air state
 if(SonicInNormalAir.Contains(Player.State.GetCurrentStateID<Sonic.StateID>())
@@ -656,8 +679,7 @@ if (UseCloudFlyBoost
 
 //Boost speed edit
 	
-	if(Player.Status.IsGrounded()
-	&&Player.Status.IsGroundedSpecial()
+	if(IsGrounded
 	){
 		
 		if(!Player.Status.IsSideView()){
@@ -866,7 +888,7 @@ if (UseCloudFlyBoost
 	}
 	
 //Air Boost End
-	if (Player.Status.IsGrounded()
+	if (IsGrounded
 	|| Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingFlip 
 	|| Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingBounce 
 	|| Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingAttack
@@ -902,8 +924,7 @@ if (UseCloudFlyBoost
 	}
 	
 	if(IsStateNowMSpeed
-	&&!Player.Status.IsGrounded()
-	&&!Player.Status.IsGroundedSpecial()
+	&&!IsGrounded
 	&&IsStateSonicNotDead
 	&&Player.State.GetCurrentStateID<Sonic.StateID>() !=Sonic.StateID.StateHomingAttack
 	&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDamageRoot
@@ -961,8 +982,7 @@ if (UseCloudFlyBoost
 		}
 		
 		if(mag>40f
-		&&!Player.Status.IsGrounded()
-		&&!Player.Status.IsGroundedSpecial()
+		&&!IsGrounded
 		&&Player.State.GetCurrentStateID<Sonic.StateID>() !=Sonic.StateID.StateAirBoost
 		&&IsStateSonicNotDead
 		){
@@ -1070,7 +1090,7 @@ if(UseExFreeFall){					//EX Diving ON OFF
 	}
 	
 	//Diving Start
-	if(!Player.Status.IsGrounded()
+	if(!IsGrounded
 	&&Player.Input.IsPressed(Player.InputActionType.PlayerCyloop)
 	&&Player.State.GetCurrentStateID<Sonic.StateID>() !=Sonic.StateID.StateQuickCyloop
 	&&Player.State.GetCurrentStateID<Sonic.StateID>() !=Sonic.StateID.StateHomingAttack
@@ -1158,7 +1178,7 @@ if(UseExFreeFall){					//EX Diving ON OFF
 	if(!NowInBattleState
 	&&IsStateSonicNotDead
 	&&Player.Input.IsPressed(Player.InputActionType.PlayerSonicboom)
-	&&Player.Status.IsGrounded()
+	&&IsGrounded
 	&&UseExAirSpinDash
 	){
 		Player.State.SetState(Sonic.StateID.StateSpinBoost);
@@ -1167,7 +1187,7 @@ if(UseExFreeFall){					//EX Diving ON OFF
 	&&!NowInBattleState
 	&&IsStateSonicNotDead
 	&&Player.Input.IsPressed(Player.InputActionType.PlayerSonicboom)
-	&&!Player.Status.IsGrounded()
+	&&!IsGrounded
 	&&Player.State.GetCurrentStateID<Sonic.StateID>() !=Sonic.StateID.StateGrind
 	&&UseExAirSpinDash
 	){
@@ -1176,7 +1196,7 @@ if(UseExFreeFall){					//EX Diving ON OFF
 	if(NowInBattleState
 	&&IsStateSonicNotDead
 	&&Player.Input.IsPressed(Player.InputActionType.PlayerSonicboom)
-	&&!Player.Status.IsGrounded()
+	&&!IsGrounded
 	&&Player.State.GetCurrentStateID<Sonic.StateID>() !=Sonic.StateID.StateGrind
 	&&UseExAirSpinDash
 	){
@@ -1231,7 +1251,7 @@ if(UseExFreeFall){					//EX Diving ON OFF
 	&&!NowInBattleState
 	&&IsStateSonicNotDead
 	&&Player.Input.IsPressed(Player.InputActionType.PlayerSonicboom)
-	&&!Player.Status.IsGrounded()
+	&&!IsGrounded
 	&&Player.State.GetCurrentStateID<Sonic.StateID>() !=Sonic.StateID.StateGrind
 	&&UseExAirSpinDash
 	&&!IS_WORLD_FLAG(IsAutoRun)
@@ -2527,8 +2547,7 @@ if(UseExGrindEndJump){
 	
 	if(UseFasterBoost){
 	
-		if(Player.Status.IsGrounded()
-		&&Player.Status.IsGroundedSpecial()
+		if(IsGrounded
 		&&!Player.Status.IsSpecialAction()
 		){
 			if(IS_STATE_FLAG(IsBoost)&&mag<28f){
@@ -2756,10 +2775,7 @@ if(UseExGrindEndJump){
 		IsSpringBoardDashReady=false;
 	}
 	
-	if(
-	Player.Status.IsGrounded()
-	||Player.Status.IsGroundedSpecial()
-	){
+	if(IsGrounded){
 		IsSpringBoardDashReady=false;
 		SpringBoardDashStop=5.0f;
 	}
@@ -3062,6 +3078,22 @@ if(UseExAntiskidShoe){		//UseExAntiskidShoe ON OFF Start
 		
 	}
 	
+	
+//LightDash Interrupt
+	if(Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateLightDash
+	&&Player.Input.IsPressed(Player.InputActionType.PlayerBoost)
+	){
+		Player.State.SetState(Sonic.StateID.StateAirBoost);
+	}
+	
+	if(Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateLightDash
+	&&Player.Input.IsPressed(Player.InputActionType.PlayerJump)
+	){
+		Player.State.SetState(Sonic.StateID.StateDoubleJump);
+	}
+	
+	
+	
 }			//UseExAntiskidShoe ON OFF End
 
 /////////////////////////////////////////////Y-Y in air to Free Quick Cyloop in Battle
@@ -3079,36 +3111,6 @@ if(UseExFreeCyloop)
 		Player.State.SetState(Sonic.StateID.StateQuickCyloop);
 	}
 }
-
-//////////////////////////////////////////////Parry Little Fall
-
-	if(Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParry
-	&&!Player.Status.IsGrounded()
-	){
-		kinematics->Position +=new Vector3(0f,-0.0075f,0f);
-	}
-	
-	
-//Parry Effect
-
-	if((Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParry
-	||Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParryStand)
-	&&IsStateSonicNotDead
-	&&!DisableAllExEffect
-	){
-		if(LoopTimeTrigger==0
-			){
-				Player.Effect.PlayEffect("ParryEffect1", "ec_so_skill_accelerator_aura01_gpu01");
-				Player.Effect.PlayEffect("ParryEffect2", "ec_so_skill_homingshot_bullet01_pointlight01");
-			}
-		}else if(
-			IsStateSonicNotDead
-			&&LoopTimeTrigger==8
-			&&!DisableAllExEffect
-		){
-			Player.Effect.StopEffect("ParryEffect1");
-			Player.Effect.StopEffect("ParryEffect2");
-		}
 	
 // A-A HomingAttack wip
 	
@@ -3123,6 +3125,213 @@ if(UseAAHomingAttack){
 		Player.State.SetState(Sonic.StateID.StateHomingAttack);
 		return;
 	}
+}
+
+//Use Hero Style Tornado Jump
+if(UseExParryMoveset&&IsStateSonicNotDead){
+
+//Parry Edit
+//Parry In Cyberspace
+if(Player.Input.IsDown(Player.InputActionType.PlayerLeftStep)
+&&Player.Input.IsPressed(Player.InputActionType.PlayerRightStep)
+&&Player.Status.IsGrounded()
+&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBoarding
+){
+	Player.State.SetState(Sonic.StateID.StateParryStand);
+}
+
+if(Player.Input.IsPressed(Player.InputActionType.PlayerLeftStep)
+&&Player.Input.IsDown(Player.InputActionType.PlayerRightStep)
+&&Player.Status.IsGrounded()
+&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBoarding
+){
+	Player.State.SetState(Sonic.StateID.StateParryStand);
+}
+
+if(Player.Input.IsDown(Player.InputActionType.PlayerLeftStep)
+&&Player.Input.IsPressed(Player.InputActionType.PlayerRightStep)
+&&!IsGrounded
+&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBoarding
+){
+	Player.State.SetState(Sonic.StateID.StateParry);
+}
+
+if(Player.Input.IsPressed(Player.InputActionType.PlayerLeftStep)
+&&Player.Input.IsDown(Player.InputActionType.PlayerRightStep)
+&&!IsGrounded
+&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBoarding
+){
+	Player.State.SetState(Sonic.StateID.StateParry);
+}
+
+//Hero Style Tornado Jump
+//Grounded
+	if(IsGrounded){
+		UseHeroTornadoTime=0.0f;
+		UseHeroTornadoOn=true;
+	}
+	
+//Start
+	if(UseHeroTornadoOn
+	&&(Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParry||Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParryStand)
+	&&Player.Input.IsPressed(Player.InputActionType.PlayerJump)
+	&&UseHeroTornadoTime==0.0f
+	&&!IsGrounded
+	){
+		Player.State.SetState(Sonic.StateID.StateChargeAttack);
+		kinematics->Position +=new Vector3(0.0f, 0.035f, 0.0f);
+		UseHeroTornadoTime=0.00001f;
+		UseHeroTornadoOn=false;
+	}
+	
+//Dash
+	if(UseHeroTornadoOn==false&&UseHeroTornadoTime>=0.00001f&&UseHeroTornadoTime<=0.00055f){
+		Player.State.SetState(Sonic.StateID.StateChargeAttack);
+		UseHeroTornadoTime+=0.00001f;
+		kinematics->Position +=new Vector3(0.0f, 0.035f, 0.0f);
+	}
+	
+	if(UseHeroTornadoOn==false&&UseHeroTornadoTime>0.00055f&&Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateChargeAttack){
+		Player.State.SetState(Sonic.StateID.StateRecoveryJump);
+		UseHeroTornadoOn=false;
+	}
+	
+	if(UseHeroTornadoOn==false&&UseHeroTornadoTime>0.00056f&&Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRecoveryJump){
+		UseHeroTornadoTime=-0.1f;
+		kinematics->Velocity+=new Vector3(0f,8.25f,0f);
+		kinematics->Position +=new Vector3(0.0f, 0.035f, 0.0f);
+		kinematics->Velocity +=Player.Kinematics.GetForward()*0.25f;
+		UseHeroTornadoOn=false;
+	}
+	
+	
+	if(UseHeroTornadoTime==-0.1f&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateRecoveryJump){
+		UseHeroTornadoTime=0.0f;
+	}
+	
+	
+	
+//Parry + Homing Attack
+	var LockOnObject = Player.Status.GetLockOnTarget();
+	if(UseHeroTornadoOn
+	&&Player.Input.IsDown(Player.InputActionType.PlayerLeftStep)
+	&&Player.Input.IsDown(Player.InputActionType.PlayerRightStep)
+	&&Player.Input.IsPressed(Player.InputActionType.PlayerAttack)
+	&&UseHeroTornadoTime<=0.0f
+	&&LockOnObject != null
+	){
+		Player.State.SetState(Sonic.StateID.StateHomingAttack);
+		UseHeroTornadoTime=-0.2f
+	}
+	
+	if(IS_WORLD_FLAG(IsCyberSpace)){
+		if(UseHeroTornadoOn
+		&&Player.Input.IsDown(Player.InputActionType.PlayerLeftStep)
+		&&Player.Input.IsDown(Player.InputActionType.PlayerRightStep)
+		&&Player.Input.IsDown(Player.InputActionType.PlayerAttack)
+		&&UseHeroTornadoTime<=0.0f
+		&&LockOnObject != null
+		){
+			//if(Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingFinished){
+			if(LoopTimeTrigger%2!=0){
+				Player.State.SetState(Sonic.StateID.StateHomingAttack);
+			}
+			UseHeroTornadoTime=-0.2f
+		}
+	}
+	
+	if(Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingAttack
+	&&UseHeroTornadoTime<=-0.2f
+	&&LockOnObject != null
+	){
+		UseHeroTornadoTime-=0.00001f;
+		Player.Animation.SetAnimation("SELECTJUMP_F_LOOP");
+		kinematics->Position +=Player.Kinematics.GetForward() * 0.2f;
+	}
+	
+	
+	//////////////////////////////////////////////Parry Little Fall
+
+	if(Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParry
+	&&!IsGrounded
+	){
+		kinematics->Position +=new Vector3(0f,-0.0075f,0f);
+	}
+	
+	
+//Parry Effect
+
+	if((Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParry
+	||Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParryStand)
+	&&IsStateSonicNotDead
+	&&!DisableAllExEffect
+	&&IsStateHoldLB
+	&&IsStateHoldRB
+	){
+		if(LoopTimeTrigger==0){
+				Player.Effect.PlayEffect("ParryEffect1", "ec_so_skill_accelerator_aura01_gpu01");
+			}
+		}else if(
+			IsStateSonicNotDead
+			&&LoopTimeTrigger==8
+			&&!DisableAllExEffect
+		){
+			Player.Effect.StopEffect("ParryEffect1");
+		}
+	
+}
+
+
+//////////////////////////Y+B Boarding in Open World
+
+if(UseExSimpleBoarding){
+	
+	if(!IS_WORLD_FLAG(IsCyberSpace)
+	&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateGrind
+	&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateGrindRoot
+	&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateGrindStep
+	&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDrift
+	){
+	
+		if(Player.Status.IsGrounded()
+			&&Player.Input.IsDown(Player.InputActionType.PlayerStomping)
+			&&Player.Input.IsDown(Player.InputActionType.PlayerCyloop)
+			){
+			//effect code by Pikachu
+			if(Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBoarding){
+				Player.Effect.PlayEffect("Boarding", "ec_encom_change_pt01_block01");
+				Player.Effect.PlayEffect("Boarding", "ef_so_parry01_counter");
+				Player.Effect.PlayEffect("Boarding", "ec_so_pow_boost_impact_fv01_gpu01");
+				Player.Effect.PlayEffect("Boarding", "ec_sb_appear01_plight01");
+				Player.Effect.PlayEffect("Boarding", "ec_sb_appear01_glow01");
+			}
+			Player.State.SetState(Sonic.StateID.StateBoarding);
+			kinematics->Velocity =Player.Kinematics.GetForward()*60.25f;
+		}
+		
+		if(!Player.Status.IsGrounded()
+			&&Player.Input.IsDown(Player.InputActionType.PlayerStomping)
+			&&Player.Input.IsDown(Player.InputActionType.PlayerCyloop)
+			&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBoarding
+			){
+			Player.State.SetState(Sonic.StateID.StateBoarding);
+			kinematics->Velocity =Player.Kinematics.GetForward()*60.25f;
+			Player.Effect.PlayEffect("Boarding", "ec_encom_change_pt01_block01");
+			Player.Effect.PlayEffect("Boarding", "ef_so_parry01_counter");
+			Player.Effect.PlayEffect("Boarding", "ec_so_pow_boost_impact_fv01_gpu01");
+			Player.Effect.PlayEffect("Boarding", "ec_sb_appear01_plight01");
+			Player.Effect.PlayEffect("Boarding", "ec_sb_appear01_glow01");
+		}
+		
+		if(Player.Input.IsReleased(Player.InputActionType.PlayerStomping)
+		||Player.Input.IsReleased(Player.InputActionType.PlayerCyloop)
+		){
+			if(Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateBoarding){
+				Player.State.SetState(Sonic.StateID.StateRun);
+			}
+		}
+	}
+	
 }
 	
 ///////////////////////////////////////////////Grounded State ID initialization

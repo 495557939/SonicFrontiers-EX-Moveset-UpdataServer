@@ -482,6 +482,33 @@
 			"DefaultValue":false
 			},
 			
+			{
+			"Name":"UseExParryMoveset",
+			"DisplayName":"Use Ex Parry Moveset (Wip)",
+			"Description":[
+			"You can use Parry in cyberspace.",
+			"When you Parry, you will emit a blue particle light effect and slowly descend.",
+			"LT+RT+A Hero Style Tornado Jump",
+			"LT+RT+X Fast Serial Homing Attack"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":false
+			},
+			
+			{
+			"Name":"UseExSimpleBoarding",
+			"DisplayName":"Y+B  Simple Board(Open world)",
+			"Description":[
+			"Y+B  Use Ex Simple Boarding (Open world only)"
+			],
+			"Type":"bool",
+			"MinValue":null,
+			"MaxValue":null,
+			"DefaultValue":false
+			},
+			
       ]
     },
 	

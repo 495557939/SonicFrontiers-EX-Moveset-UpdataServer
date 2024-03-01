@@ -270,7 +270,10 @@
 			"When you release the",
 			"jump button,",
 			"you will immediately",
-			"exit the DropDash state"
+			"exit the DropDash state",
+			"",
+			"When you use LightDash,",
+			 "You can press A or X to interrupt"
 			 
 			],
 			"Type":"bool",

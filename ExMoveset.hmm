@@ -3296,6 +3296,7 @@ if(UseExSimpleBoarding){
 		if(Player.Status.IsGrounded()
 			&&Player.Input.IsDown(Player.InputActionType.PlayerStomping)
 			&&Player.Input.IsDown(Player.InputActionType.PlayerCyloop)
+			&&!IS_WORLD_FLAG(IsBattle)
 			){
 			//effect code by Pikachu
 			if(Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBoarding){
@@ -3313,6 +3314,7 @@ if(UseExSimpleBoarding){
 			&&Player.Input.IsDown(Player.InputActionType.PlayerStomping)
 			&&Player.Input.IsDown(Player.InputActionType.PlayerCyloop)
 			&&Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateBoarding
+			&&!IS_WORLD_FLAG(IsBattle)
 			){
 			Player.State.SetState(Sonic.StateID.StateBoarding);
 			kinematics->Velocity =Player.Kinematics.GetForward()*60.25f;
